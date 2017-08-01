@@ -25,45 +25,53 @@ const changeTodoStatus = node => {
     node.owner,
     err => {
       if (err) {
-        console.log("hallo???");
         console.error(err);
       }
     }
   );
 };
 
-const ListPage = props => {
-  return (
-    <Paper zDepth={2} style={ContainerStyle}>
-      <h1 style={{ textAlign: "center", paddingTop: "20px" }}>Todos</h1>
-      <Divider />
-      <Table multiSelectable={true}>
-        <TableBody
-          displayRowCheckbox={true}
-          showRowHover={true}
-          deselectOnClickaway={false}
-        >
-          {props.viewer.todos.edges.map(({ node }) => {
-            return (
-              <TableRow
-                selected={node.status}
-                onTouchTap={() => {
-                  changeTodoStatus(node);
-                }}
-              >
-                <TableRowColumn>
-                  <Post key={node.__id} post={node} />
-                </TableRowColumn>
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
-      <Divider />
-      <AddTodo viewerID={props.viewer.id} />
-    </Paper>
-  );
-};
+class ListPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      plzChange: false
+    };
+  }
+
+  render() {
+    return (
+      <Paper zDepth={2} style={ContainerStyle}>
+        <h1 style={{ textAlign: "center", paddingTop: "20px" }}>Todos</h1>
+        <Divider />
+        <Table multiSelectable={true}>
+          <TableBody
+            displayRowCheckbox={true}
+            showRowHover={true}
+            deselectOnClickaway={false}
+          >
+            {this.props.viewer.todos.edges.map(({ node }) => {
+              return (
+                <TableRow
+                  selected={node.status}
+                  onTouchTap={() => {
+                    changeTodoStatus(node);
+                  }}
+                >
+                  <TableRowColumn>
+                    <Post key={node.__id} post={node} />
+                  </TableRowColumn>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+        <Divider />
+        <AddTodo viewerID={this.props.viewer.id} />
+      </Paper>
+    );
+  }
+}
 
 export default createFragmentContainer(
   ListPage,

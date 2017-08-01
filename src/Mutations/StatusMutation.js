@@ -26,6 +26,17 @@ export default (todoID, title, description, status, owner, callback) => {
 
   commitMutation(environment, {
     mutation: mutation,
-    variables: variables
+    variables: variables,
+    onCompleted: (response, error) => {
+      callback(error);
+    },
+    updater: store => {
+      const addTodoField = store.getRootField("updateTodo");
+      const newTodo = addTodoField.getLinkedRecord("todo");
+      newTodo.setValue(status, "status", status);
+    },
+    onError: err => {
+      console.error(err);
+    }
   });
 };
