@@ -1,0 +1,146 @@
+input AddTodoInput {
+  title: String!
+  description: String
+  status: Boolean
+  clientMutationId: String
+}
+
+type AddTodoPayload {
+  todo: Todo
+  clientMutationId: String
+}
+
+input DeleteTodoInput {
+  todoID: ID!
+  clientMutationId: String
+}
+
+type DeleteTodoPayload {
+  deletedTodoID: ID
+  clientMutationId: String
+}
+
+input LoginUserInput {
+  clientMutationId: String
+  email: String!
+  password: String!
+}
+
+type LoginUserPayload {
+  clientMutationId: String
+  user: User
+}
+
+type Mutation {
+  loginUser(input: LoginUserInput!): LoginUserPayload
+  logoutUser: String
+  addTodo(input: AddTodoInput!): AddTodoPayload
+  deleteTodo(input: DeleteTodoInput!): DeleteTodoPayload
+  updateTodo(input: UpdateTodoInput!): UpdateTodoPayload
+  registerUser(input: RegisterUserInput!): RegisterUserPayload
+}
+
+# An object with an ID
+interface Node {
+  # The id of the object
+  id: ID!
+}
+
+# Information about pagination in a connection.
+type PageInfo {
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+
+  # When paginating backwards, the cursor to continue.
+  startCursor: String
+
+  # When paginating forwards, the cursor to continue.
+  endCursor: String
+}
+
+type Query {
+  # Fetches an object given its ID
+  node(
+    # The ID of an object
+    id: ID!
+  ): Node
+
+  # Returns the loged in user based on a  
+  # session token in the 'Authorization' header
+  viewer: User
+  todos(before: String, after: String, first: Int, last: Int): TodoConnection
+}
+
+input RegisterUserInput {
+  pwrepeate: String!
+  clientMutationId: String
+  name: String!
+  email: String!
+  password: String!
+}
+
+type RegisterUserPayload {
+  clientMutationId: String
+  user: User
+}
+
+type Todo implements Node {
+  # The ID of the owner (User)
+  owner: ID!
+
+  # Title of the todo
+  title: String
+
+  # Descriptoin of the todo
+  description: String
+
+  # The status of the todo (completed or not)
+  status: Boolean
+
+  # The ID of an object
+  id: ID!
+}
+
+# A connection to a list of items.
+type TodoConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # Information to aid in pagination.
+  edges: [TodoEdge]
+}
+
+# An edge in a connection
+type TodoEdge {
+  # The item at the end of the edge
+  node: Todo
+
+  #  cursor for use in pagination
+  cursor: String!
+}
+
+input UpdateTodoInput {
+  todoID: ID!
+  title: String
+  description: String
+  status: Boolean
+  clientMutationId: String
+}
+
+type UpdateTodoPayload {
+  clientMutationId: String
+  todo: Todo
+}
+
+type User implements Node {
+  name: String
+  email: String
+  todos(before: String, after: String, first: Int, last: Int): TodoConnection
+
+  # The ID of an object
+  id: ID!
+}
+
