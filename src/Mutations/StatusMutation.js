@@ -31,8 +31,8 @@ export default (todoID, title, description, status, owner, callback) => {
       callback(error);
     },
     updater: store => {
-      const addTodoField = store.getRootField("updateTodo");
-      const newTodo = addTodoField.getLinkedRecord("todo");
+      const updateTodoField = store.getRootField("updateTodo");
+      const newTodo = updateTodoField.getLinkedRecord("todo");
       newTodo.setValue(status, "status", status);
     },
     onError: err => {
