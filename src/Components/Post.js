@@ -1,6 +1,5 @@
 import React from "react";
-import { Card, CardHeader } from "material-ui/Card";
-import { FlatButton, TableRow, TableRowColumn, TextField } from "material-ui";
+import { FlatButton, TextField } from "material-ui";
 import { createFragmentContainer, graphql } from "react-relay";
 
 import DeleteMutation from "../Mutations/DeleteMutation";

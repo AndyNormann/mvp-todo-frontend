@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import ListPage from "./Components/ListPage";
 import { graphql, QueryRenderer } from "react-relay";
-import { Link, browserHistory } from "react-router";
+import { browserHistory } from "react-router";
 
 import environment from "./Environment";
 

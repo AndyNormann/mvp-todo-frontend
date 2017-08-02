@@ -1,5 +1,4 @@
 import { commitMutation, graphql } from "react-relay";
-import { Connectionhandler } from "relay-runtime";
 import environment from "../Environment";
 
 // et_deserunt@Tagfeed.biz
