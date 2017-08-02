@@ -7,7 +7,8 @@ import {
   Table,
   TableBody,
   TableRow,
-  TableRowColumn
+  TableRowColumn,
+  Checkbox
 } from "material-ui";
 import AddTodo from "../AddTodo";
 import StatusMutation from "../Mutations/StatusMutation";
@@ -44,21 +45,24 @@ class ListPage extends React.Component {
       <Paper zDepth={2} style={ContainerStyle}>
         <h1 style={{ textAlign: "center", paddingTop: "20px" }}>Todos</h1>
         <Divider />
-        <Table multiSelectable={true}>
+        <Table multiSelectable={false}>
           <TableBody
-            displayRowCheckbox={true}
+            displayRowCheckbox={false}
             showRowHover={true}
             deselectOnClickaway={false}
           >
             {this.props.viewer.todos.edges.map(({ node }) => {
               return (
-                <TableRow
-                  selected={node.status}
-                  onTouchTap={() => {
-                    changeTodoStatus(node);
-                  }}
-                >
-                  <TableRowColumn>
+                <TableRow selectable={false}>
+                  <TableRowColumn
+                    colSpan="1"
+                    onTouchTap={() => {
+                      changeTodoStatus(node);
+                    }}
+                  >
+                    <Checkbox switched={false} checked={node.status} />
+                  </TableRowColumn>
+                  <TableRowColumn colSpan="5">
                     <Post key={node.__id} post={node} />
                   </TableRowColumn>
                 </TableRow>
