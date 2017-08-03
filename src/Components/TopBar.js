@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { AppBar, IconButton, IconMenu, MenuItem } from "material-ui";
 import NavigationMenu from "material-ui/svg-icons/navigation/menu";
+import { browserHistory } from "react-router";
 
 const Menu = props => {
   return (
@@ -11,11 +12,13 @@ const Menu = props => {
           <NavigationMenu />
         </IconButton>
       }
-      targetOrigin={{ horizontal: "top", vertical: "bottom" }}
-      anchorOrigin={{ horizontal: "bottom", vertical: "top" }}
+      targetOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
       <MenuItem primaryText="Drivers" />
-      <MenuItem primaryText="Services" />
+      <MenuItem
+        primaryText="Test"
+        onTouchTap={() => browserHistory.push("/test")}
+      />
       <MenuItem primaryText="Stored Info" />
       <MenuItem primaryText="Log out" />
     </IconMenu>
@@ -28,7 +31,11 @@ class TopBar extends Component {
   render() {
     return (
       <div>
-        <AppBar title="Admin" iconElementLeft={<Menu />} />
+        <AppBar
+          style={{ position: "fixed", top: 0 }}
+          title="Todo"
+          iconElementLeft={<Menu />}
+        />
       </div>
     );
   }

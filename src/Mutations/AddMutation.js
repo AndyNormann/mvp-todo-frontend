@@ -45,7 +45,7 @@ export default (title, description, status, viewerId, callback) => {
         "TodoEdge"
       );
 
-      ConnectionHandler.insertEdgeAfter(todos, edge);
+      ConnectionHandler.insertEdgeBefore(todos, edge);
     },
 
     onError: err => {

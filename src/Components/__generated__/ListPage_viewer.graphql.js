@@ -27,14 +27,27 @@ export type ListPage_viewer = {|
 
 
 const fragment /*: ConcreteFragment*/ = {
-  "argumentDefinitions": [],
+  "argumentDefinitions": [
+    {
+      "kind": "LocalArgument",
+      "name": "count",
+      "type": "Int",
+      "defaultValue": 1000
+    },
+    {
+      "kind": "LocalArgument",
+      "name": "cursor",
+      "type": "String",
+      "defaultValue": null
+    }
+  ],
   "kind": "Fragment",
   "metadata": {
     "connection": [
       {
-        "count": null,
-        "cursor": null,
-        "direction": "backward",
+        "count": "count",
+        "cursor": "cursor",
+        "direction": "forward",
         "path": [
           "todos"
         ]

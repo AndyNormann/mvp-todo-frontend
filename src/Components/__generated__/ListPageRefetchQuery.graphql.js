@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 2c0e283ed1d2a02c8d5bb65184df6003
+ * @relayHash 7b76576d4408f46d6eff3a4cf3cd1ca5
  */
 
 /* eslint-disable */
@@ -9,23 +9,26 @@
 
 /*::
 import type {ConcreteBatch} from 'relay-runtime';
-export type AppQueryResponse = {|
+export type ListPageRefetchQueryResponse = {|
   +viewer: ?{| |};
 |};
 */
 
 
 /*
-query AppQuery {
+query ListPageRefetchQuery(
+  $count: Int
+  $cursor: String
+) {
   viewer {
-    ...ListPage_viewer
+    ...ListPage_viewer_1G22uz
     id
   }
 }
 
-fragment ListPage_viewer on User {
+fragment ListPage_viewer_1G22uz on User {
   id
-  todos(first: 1000) {
+  todos(first: $count, after: $cursor) {
     edges {
       node {
         id
@@ -53,10 +56,23 @@ fragment Post_post on Todo {
 
 const batch /*: ConcreteBatch*/ = {
   "fragment": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": [
+      {
+        "kind": "LocalArgument",
+        "name": "count",
+        "type": "Int",
+        "defaultValue": null
+      },
+      {
+        "kind": "LocalArgument",
+        "name": "cursor",
+        "type": "String",
+        "defaultValue": null
+      }
+    ],
     "kind": "Fragment",
     "metadata": null,
-    "name": "AppQuery",
+    "name": "ListPageRefetchQuery",
     "selections": [
       {
         "kind": "LinkedField",
@@ -69,7 +85,20 @@ const batch /*: ConcreteBatch*/ = {
           {
             "kind": "FragmentSpread",
             "name": "ListPage_viewer",
-            "args": null
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "count",
+                "variableName": "count",
+                "type": null
+              },
+              {
+                "kind": "Variable",
+                "name": "cursor",
+                "variableName": "cursor",
+                "type": null
+              }
+            ]
           }
         ],
         "storageKey": null
@@ -80,11 +109,24 @@ const batch /*: ConcreteBatch*/ = {
   "id": null,
   "kind": "Batch",
   "metadata": {},
-  "name": "AppQuery",
+  "name": "ListPageRefetchQuery",
   "query": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": [
+      {
+        "kind": "LocalArgument",
+        "name": "count",
+        "type": "Int",
+        "defaultValue": null
+      },
+      {
+        "kind": "LocalArgument",
+        "name": "cursor",
+        "type": "String",
+        "defaultValue": null
+      }
+    ],
     "kind": "Root",
-    "name": "AppQuery",
+    "name": "ListPageRefetchQuery",
     "operation": "query",
     "selections": [
       {
@@ -107,9 +149,15 @@ const batch /*: ConcreteBatch*/ = {
             "alias": null,
             "args": [
               {
-                "kind": "Literal",
+                "kind": "Variable",
+                "name": "after",
+                "variableName": "cursor",
+                "type": "String"
+              },
+              {
+                "kind": "Variable",
                 "name": "first",
-                "value": 1000,
+                "variableName": "count",
                 "type": "Int"
               }
             ],
@@ -221,16 +269,22 @@ const batch /*: ConcreteBatch*/ = {
                 "storageKey": null
               }
             ],
-            "storageKey": "todos{\"first\":1000}"
+            "storageKey": null
           },
           {
             "kind": "LinkedHandle",
             "alias": null,
             "args": [
               {
-                "kind": "Literal",
+                "kind": "Variable",
+                "name": "after",
+                "variableName": "cursor",
+                "type": "String"
+              },
+              {
+                "kind": "Variable",
                 "name": "first",
-                "value": 1000,
+                "variableName": "count",
                 "type": "Int"
               }
             ],
@@ -244,7 +298,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query AppQuery {\n  viewer {\n    ...ListPage_viewer\n    id\n  }\n}\n\nfragment ListPage_viewer on User {\n  id\n  todos(first: 1000) {\n    edges {\n      node {\n        id\n        status\n        ...Post_post\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n\nfragment Post_post on Todo {\n  id\n  title\n  description\n}\n"
+  "text": "query ListPageRefetchQuery(\n  $count: Int\n  $cursor: String\n) {\n  viewer {\n    ...ListPage_viewer_1G22uz\n    id\n  }\n}\n\nfragment ListPage_viewer_1G22uz on User {\n  id\n  todos(first: $count, after: $cursor) {\n    edges {\n      node {\n        id\n        status\n        ...Post_post\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n\nfragment Post_post on Todo {\n  id\n  title\n  description\n}\n"
 };
 
 module.exports = batch;

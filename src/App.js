@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import ListPage from "./Components/ListPage";
 import { graphql, QueryRenderer } from "react-relay";
-import { browserHistory } from "react-router";
+import CircularProgress from "material-ui/CircularProgress";
 
 import environment from "./Environment";
 
@@ -20,6 +20,10 @@ class App extends Component {
       <QueryRenderer
         environment={environment}
         query={ViewerQuery}
+        variables={{
+          count: 10,
+          cursor: ""
+        }}
         render={({ error, props }) => {
           if (error) {
             return (
@@ -30,17 +34,24 @@ class App extends Component {
           } else if (props) {
             return (
               <div>
-                {props.viewer
-                  ? <ListPage viewer={props.viewer} />
-                  : browserHistory.push("/login")}
+                <ListPage viewer={props.viewer} />
               </div>
             );
           }
-          return <div>Loading</div>;
+          return (
+            <CircularProgress
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            />
+          );
         }}
       />
     );
   }
 }
 
+//{props.viewer ? <ListPage /> : browserHistory.push("/login")}
 export default App;
